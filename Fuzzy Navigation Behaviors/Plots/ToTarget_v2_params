@@ -1,0 +1,25 @@
+self.fpreds = {
+    # Definition of the fuzzy predicates, used in the rules' LHS
+    'TargetLeft'        : (ramp_up(30.0, 60.0), 'phi'),
+    'TargetLeftAhead'   : (triangle(0.0, 15.0, 30.0), 'phi'),
+    'TargetRight'       : (ramp_down(-60.0, -30.0), 'phi'),
+    'TargetRightAhead'  : (triangle(-30.0, -15.0, 0.0), 'phi'),
+    'TargetAhead'       : (triangle(-60.0, 0.0, 60.0), 'phi'),
+    'TargetHere'        : (ramp_down(0.1, 2.0), 'rho')
+}
+
+self.flvars = {
+    # Definition of the fuzzy linguistic variables, used in the rules' RHS
+    'Move' : ({'Fast':0.5, 'Slow':0.1, 'None':0, 'Back':-0.1}, 'Vlin'),
+    'Turn' : ({'Left':40, 'MLeft':5, 'None':0, 'MRight':-5, 'Right':-40}, 'Vrot')
+}
+
+self.frules = {
+    # Lastly, definition of the actual fuzzy rules
+    'ToMLeft' : ("TargetLeftAhead AND NOT(TargetHere)", 'Turn', 'MLeft'),
+    'ToLeft'  : ("TargetLeft AND NOT(TargetHere)", 'Turn', 'Left'),
+    'ToMRight' : ("TargetRightAhead AND NOT(TargetHere)", 'Turn', 'MRight'),
+    'ToRight' : ("TargetRight AND NOT(TargetHere)", 'Turn', 'Right'),
+    'Far'     : ("TargetAhead AND NOT(TargetHere)", 'Move', 'Fast'),
+    'Stop'    : ("TargetHere", 'Move', 'None')
+}

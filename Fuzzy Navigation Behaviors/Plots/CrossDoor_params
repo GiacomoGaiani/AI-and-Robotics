@@ -1,0 +1,25 @@
+self.fpreds = {
+    # Definition of the fuzzy predicates, used in the rules' LHS
+    'ObjectAhead'       : (ramp_down(1.0, 3.0), 'sFront'),
+    'ObjectMLeft'       : (ramp_down(1.0, 3.0), 'sMLeft'),
+    'ObjectLeft'        : (ramp_down(1.0, 3.0), 'sLeft'),
+    'ObjectMRight'      : (ramp_down(1.0, 3.0), 'sMRight'),
+    'ObjectRight'       : (ramp_down(1.0, 3.0), 'sRight'),
+    'ObjectAround'      : (ramp_down(2.0, 3.0), 'sAround'),
+}
+
+self.flvars = {
+    # Definition of the fuzzy linguistic variables, used in the rules' RHS
+    'Move' : ({'Fast':0.5, 'Slow':0.1, 'None':0, 'Back':-0.1}, 'Vlin'),
+    'Turn' : ({'Left':40, 'MLeft':10, 'None':0, 'MRight':-10, 'Right':-40}, 'Vrot')
+}
+
+self.frules = {
+    # Lastly, definition of the actual fuzzy rules
+    'FacingDoor': ("NOT(ObjectAhead)", 'Move', 'Fast'),
+    'PassedDoor': ("NOT(ObjectAround)", 'Move', 'None'),
+    'DoorOnLeft': ("NOT(ObjectLeft)", 'Turn', 'MLeft'),
+    'DoorOnRight': ("NOT(ObjectRight)", 'Turn', 'MRight'),
+    'DoorOnMLeft': ("NOT(ObjectMLeft)", 'Turn', 'Left'),
+    'DoorOnMRight': ("NOT(ObjectMRight)", 'Turn', 'Right'),
+}
